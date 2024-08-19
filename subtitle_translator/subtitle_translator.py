@@ -1,6 +1,6 @@
 import argparse
 from tqdm import tqdm
-from googletrans import Translator
+import deepl
 
 
 
@@ -12,7 +12,7 @@ def parse_args():
 
 
 def translate_subtitles(input_file, output_file):
-    translator = Translator()
+    translator = deepl.Translator('YOUR_API_KEY')
 
     with open(input_file) as f:
         lines = f.readlines()
@@ -23,11 +23,12 @@ def translate_subtitles(input_file, output_file):
             line = line.strip()
             line_parts = line.split()
 
-            if len(line_parts) > 2 and '-->' not in line:
+            if len(line_parts) > 1 and '-->' not in line:
                 text = f'{text}{line}'
             else:
                 if text:
-                    text = translator.translate(text, dest='pl').text
+                    text = translator.translate_text(text, target_lang='PL').text + '\n'
+
                 print(f'"*{text}{line}\n*"')
                 f.write(f'{text}{line}\n')
                 text = ''
