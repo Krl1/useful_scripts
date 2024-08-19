@@ -29,7 +29,6 @@ def translate_subtitles(input_file, output_file):
                 if text:
                     text = translator.translate_text(text, target_lang='PL').text + '\n'
 
-                print(f'"*{text}{line}\n*"')
                 f.write(f'{text}{line}\n')
                 text = ''
 
